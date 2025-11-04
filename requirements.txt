@@ -6,3 +6,4 @@ openpyxl
 reportlab
 plotly
 matplotlib
+kaleido
