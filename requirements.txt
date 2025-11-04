@@ -6,4 +6,4 @@ openpyxl
 reportlab
 plotly
 matplotlib
-kaleido
+kaleido==0.1.0.post1
