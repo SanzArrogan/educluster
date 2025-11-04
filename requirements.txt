@@ -1,9 +1,8 @@
 streamlit
-numpy<2.0
-scikit-learn
 pandas
+scikit-learn
 openpyxl
 reportlab
 plotly
 matplotlib
-kaleido==0.1.0.post1
+kaleido
