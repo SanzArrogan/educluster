@@ -5,10 +5,10 @@ from reportlab.lib.pagesizes import letter
 from streamlit.components.v1 import html
 
 # --- Fungsi Membuat / Membaca Buku Manual ---
-# (Fungsi get_manual_pdf_bytes() Anda biarkan saja, sudah benar)
 @st.cache_data
 def get_manual_pdf_bytes():
-    file_name = "Buku_Manual_EduCluster.pdf"
+    # (DIUBAH) Nama file sekarang 'Buku Manual.pdf'
+    file_name = "Buku Manual.pdf" 
     try:
         with open(file_name, "rb") as pdf_file:
             pdf_bytes_real = pdf_file.read()
@@ -20,7 +20,8 @@ def get_manual_pdf_bytes():
         p = canvas.Canvas(buffer, pagesize=letter)
         p.drawString(100, 750, "Buku Manual EduCluster (Dummy)")
         p.drawString(100, 730, "File buku manual asli tidak ditemukan.")
-        p.drawString(100, 710, "Letakkan file 'Buku_Manual_EduCluster.pdf' di folder utama.")
+        # (DIUBAH) Pesan error di dummy PDF juga diperbarui
+        p.drawString(100, 710, "Letakkan file 'Buku Manual.pdf' di folder utama.") 
         p.save()
         buffer.seek(0)
         return buffer.getvalue(), "Buku_Manual_Dummy.pdf"
@@ -264,7 +265,7 @@ def app():
             <div class="feature-card">
                 <div class="feature-icon-big">📘</div>
                 <div class="feature-title">SD</div>
-                <div class_ ="feature-desc">
+                <div class="feature-desc">
                     Sekolah Dasar (SD) fokus pada literasi, numerasi, dan pembentukan nilai-nilai dasar untuk anak usia 7–12 tahun.
                 </div>
             </div>
@@ -328,9 +329,3 @@ def app():
                 </div>
             </div>
         """, unsafe_allow_html=True)
-
-
-# Jalankan fungsi
-# (Pastikan Anda memanggil app() di file utama Anda)
-# if __name__ == "__main__":
-#     app()
