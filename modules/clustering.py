@@ -240,7 +240,8 @@ def convert_clusters_to_excel(df_results_download, df_results_display, features,
                         )
 
                         # Simpan plot ke bytes di memori
-                        img_bytes = fig.to_image(format="png")
+                        img_bytes = None
+
                         img_data = io.BytesIO(img_bytes)
                         
                         # Tambahkan gambar ke worksheet
@@ -1480,4 +1481,5 @@ def app():
             plot_region_distribution_filtered(df_results_display, cluster_col='Cluster')
             
             # 3. (BARU) Persebaran per Kelurahan
+
             plot_region_distribution_filtered_kelurahan(df_results_display, cluster_col='Cluster')
