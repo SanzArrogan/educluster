@@ -39,7 +39,7 @@ FILE_MAP = {
     "SMP": "data/SMP 2024.xlsx"
 }
 
-# Kolom untuk template Excel (JANGAN DIUBAH URUTANNYA)
+# Kolom untuk template Excel untuk User
 TEMPLATE_COLUMNS = [
     'kecamatan', 'kelurahan', 'jenjang', 'nama_sekolah', 'jumlah_siswa', 
     'jumlah_guru', 'jumlah_tendik', 'jumlah_kamar_mandi_wc_guru_laki_laki', 
@@ -176,7 +176,7 @@ def convert_clusters_to_excel(df_results_download, df_results_display, features,
 
 
     output = io.BytesIO()
-    # Gunakan data asli (download) untuk daftar nama sekolah
+    # Urutkan data berdasarkan cluster dan nama sekolah untuk konsistensi (download Data)
     df_sorted = df_results_download.sort_values(by=[cluster_col, 'nama_sekolah'])
 
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
@@ -240,12 +240,7 @@ def convert_clusters_to_excel(df_results_download, df_results_display, features,
                         )
 
                         # Simpan plot ke bytes di memori
-                        try:
-    img_bytes = fig.to_image(format="png")
-except Exception as e:
-    st.warning(f"Plot tidak bisa dirender karena Chrome/Kaleido tidak tersedia: {e}")
-    img_bytes = None
-
+                        img_bytes = fig.to_image(format="png")
                         img_data = io.BytesIO(img_bytes)
                         
                         # Tambahkan gambar ke worksheet
@@ -1485,6 +1480,4 @@ def app():
             plot_region_distribution_filtered(df_results_display, cluster_col='Cluster')
             
             # 3. (BARU) Persebaran per Kelurahan
-
             plot_region_distribution_filtered_kelurahan(df_results_display, cluster_col='Cluster')
-
