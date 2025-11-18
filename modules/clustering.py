@@ -206,54 +206,6 @@ def convert_clusters_to_excel(df_results_download, df_results_display, features,
                     st.warning(f"Gagal menyesuaikan lebar kolom untuk sheet '{safe_sheet_name}': {e}")
 
             # --- 3. Tambahkan Box Plot (Logika Lama) ---
-            if can_draw_plots and features: # Hanya jika ada fitur dan library
-                try:
-                    # Dapatkan worksheet object
-                    if 'worksheet' not in locals(): # Ambil jika belum diambil
-                         worksheet = writer.sheets[safe_sheet_name]
-
-                    # (MODIFIKASI) Ambil data ASLI untuk plot
-                    df_cluster_original_plot = df_results_download[df_results_download[cluster_col] == cluster_name]
-                    
-                    if not df_cluster_original_plot.empty:
-                        # Siapkan data untuk plotting (melt)
-                        df_melted = df_cluster_original_plot[features].melt()
-                        # Petakan ke nama cantik untuk plot
-                        df_melted['Fitur'] = df_melted['variable'].map(pretty_names_map)
-
-                        # Buat figur Plotly
-                        fig = px.box(
-                            df_melted, 
-                            x='value', 
-                            y='Fitur', 
-                            orientation='h',
-                            title=f"Distribusi Fitur (Nilai Asli) - {cluster_name}" # Judul diubah
-                        )
-                        # Atur tinggi dinamis berdasarkan jumlah fitur
-                        plot_height = max(200, len(features) * 35)
-                        fig.update_layout(
-                            xaxis_title="Nilai Asli", # Sumbu diubah
-                            yaxis_title="Fitur", 
-                            yaxis={'categoryorder':'total ascending'},
-                            height=plot_height,
-                            width=600
-                        )
-
-                        # Simpan plot ke bytes di memori
-                        img_bytes = fig.to_image(format="png")
-                        img_data = io.BytesIO(img_bytes)
-                        
-                        # Tambahkan gambar ke worksheet
-                        img = Image(img_data)
-                        
-                        # Letakkan di sebelah kanan data (Kolom E)
-                        # dan beberapa baris di bawah header
-                        img.anchor = 'E5' 
-                        worksheet.add_image(img)
-
-                except Exception as e:
-                    # Laporkan ke streamlit, tapi jangan gagalkan proses download
-                    st.error(f"Gagal menambahkan plot ke sheet '{safe_sheet_name}': {e}", icon="🚫")
             
     processed_data = output.getvalue()
     return processed_data
@@ -1481,3 +1433,4 @@ def app():
             
             # 3. (BARU) Persebaran per Kelurahan
             plot_region_distribution_filtered_kelurahan(df_results_display, cluster_col='Cluster')
+
