@@ -240,7 +240,11 @@ def convert_clusters_to_excel(df_results_download, df_results_display, features,
                         )
 
                         # Simpan plot ke bytes di memori
-                        img_bytes = None
+                        try:
+    img_bytes = fig.to_image(format="png")
+except Exception as e:
+    st.warning(f"Plot tidak bisa dirender karena Chrome/Kaleido tidak tersedia: {e}")
+    img_bytes = None
 
                         img_data = io.BytesIO(img_bytes)
                         
@@ -1483,3 +1487,4 @@ def app():
             # 3. (BARU) Persebaran per Kelurahan
 
             plot_region_distribution_filtered_kelurahan(df_results_display, cluster_col='Cluster')
+
